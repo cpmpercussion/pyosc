@@ -110,12 +110,8 @@ Original Comments
 > For questions regarding this module contact Daniel Holth <dholth@stetson.edu>  or visit http://www.stetson.edu/~ProctoLogic/
 
 > Changelog:
-> 15 Nov. 2001:
->       Removed dependency on Python 2.0 features.
->       - dwh
-> 13 Feb. 2002:
->       Added a generic callback handler.
->       - dwh
+> 15 Nov. 2001: Removed dependency on Python 2.0 features. - dwh
+> 13 Feb. 2002: Added a generic callback handler. - dwh
 
 ## INSTALLING
 
