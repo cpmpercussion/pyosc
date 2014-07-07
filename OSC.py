@@ -1160,8 +1160,8 @@ class OSCClient(object):
 		if self.server != None:
 			self.server.return_port = address[1]
 
-	def sendto(self, msg, address, timeout=None):
-		"""Send the given OSCMessage to the specified address.
+def sendto(self, msg, address, timeout=None):
+		"""Send the given OSCMessage to the specified address (this uses a connectionless socket).
 		  - msg:  OSCMessage (or OSCBundle) to be sent
 		  - address:  (host, port) tuple specifing remote server to send the message to
 		  - timeout:  A timeout value for attempting to send. If timeout == None,
@@ -1171,6 +1171,21 @@ class OSCClient(object):
 		if not isinstance(msg, OSCMessage):
 			raise TypeError("'msg' argument is not an OSCMessage or OSCBundle object")
 
+		# First make sure the socket exists
+		try:
+			if not self.socket:
+				if len(address) == 4:
+					address_family = socket.AF_INET6
+				else:
+					address_family = socket.AF_INET
+				self._setSocket(socket.socket(address_family, socket.SOCK_DGRAM))
+		except socket.error as e:
+			if e[0] in (7, 65):	# 7 = 'no address associated with nodename',  65 = 'no route to host'
+				raise e
+			else:
+				raise OSCClientError("Error while CONNECTING to %s: %s" % (str(address), str(e)))
+
+		# Then Select
 		ret = select.select([],[self._fd], [], timeout)
 		try:
 			ret[1].index(self._fd)
@@ -1178,18 +1193,16 @@ class OSCClient(object):
 			# for the very rare case this might happen
 			raise OSCClientError("Timed out waiting for file descriptor")
 		
+		# Finally Send
 		try:
-			self._ensureConnected(address)
-			self.socket.sendall(msg.getBinary())
-			
+			self.socket.sendto(msg.getBinary(),address)
 			if self.client_address:
 				self.socket.connect(self.client_address)
-			
 		except socket.error, e:
 			if e[0] in (7, 65):	# 7 = 'no address associated with nodename',  65 = 'no route to host'
 				raise e
 			else:
-				raise OSCClientError("while sending to %s: %s" % (str(address), str(e)))
+				raise OSCClientError("Error while SENDING to %s: %s" % (str(address), str(e)))
 
 	def send(self, msg, timeout=None):
 		"""Send the given OSCMessage.
