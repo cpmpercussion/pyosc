@@ -153,10 +153,16 @@ Usage: `testbench.py [options]`
 Options:
 
     -h, --help                  show this help message and exit
+
     -l LISTEN, --listen=LISTEN  listen on given host[:port]. default = '0.0.0.0:2222'
+
     -s SENDTO, --sendto=SENDTO  send to given host[:port]. default = '127.0.0.1:2222'
+
     -t, --threading             Test ThreadingOSCServer
+
     -f, --forking	              Test ForkingOSCServer
+
     -u, --usage                 Show this help message and exit
+
     -c, --streaming             Test streaming OSC (OSC over TCP)
 
