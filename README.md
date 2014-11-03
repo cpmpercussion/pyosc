@@ -26,9 +26,7 @@ To send OSC-messages, you need an OSCClient, and to receive OSC-messages you nee
 
 The OSCClient uses an `AF_INET` / `SOCK_DGRAM` type socket (see the `socket` module) to send binary representations of OSC-messages to a remote host:port address.
 
-The OSCServer listens on an `AF_INET` / `SOCK_DGRAM` type socket bound to a local port, and handles
-incoming requests. Either one-after-the-other (`OSCServer`) or in a multi-threaded / multi-process fashion (`ThreadingOSCServer` / `ForkingOSCServer`). If the Server has a callback-function (a.k.a. handler) registered
-to 'deal with' (i.e. handle) the received message's OSC-address, that function is called, passing it the (decoded) message
+The OSCServer listens on an `AF_INET` / `SOCK_DGRAM` type socket bound to a local port, and handles incoming requests. Either one-after-the-other (`OSCServer`) or in a multi-threaded / multi-process fashion (`ThreadingOSCServer` / `ForkingOSCServer`). If the Server has a callback-function (a.k.a. handler) registered to 'deal with' (i.e. handle) the received message's OSC-address, that function is called, passing it the (decoded) message
 
 The different OSC servers implemented here all support the (recursive) un-bundling of OSC-bundles, and OSC-bundle timetags.
 

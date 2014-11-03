@@ -1160,7 +1160,7 @@ class OSCClient(object):
 		if self.server != None:
 			self.server.return_port = address[1]
 
-def sendto(self, msg, address, timeout=None):
+	def sendto(self, msg, address, timeout=None):
 		"""Send the given OSCMessage to the specified address (this uses a connectionless socket).
 		  - msg:  OSCMessage (or OSCBundle) to be sent
 		  - address:  (host, port) tuple specifing remote server to send the message to
@@ -1864,7 +1864,7 @@ class OSCServer(UDPServer, OSCAddressSpace):
 	Serves one request at-a-time, until the OSCServer is closed.
 	The OSC address-pattern is matched against a set of OSC-adresses
 	that have been registered to the server with a callback-function.
-	If the adress-pattern of the message machtes the registered address of a callback,
+	If the adress-pattern of the message matches the registered address of a callback,
 	that function is called. 
 	"""
 	
